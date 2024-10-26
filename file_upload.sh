@@ -65,7 +65,6 @@ function upload_file() {
     exit 1
   fi
 
-
   return ${response}
 }
 
