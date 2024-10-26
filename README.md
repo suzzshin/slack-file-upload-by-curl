@@ -4,8 +4,17 @@ curl コマンドを使って Slack にファイルをアップロードする b
 
 # 使い方
 
-内部で jq コマンドを使っているので、事前にインストールしておく。
+内部で curl, jq コマンドを使っているので、事前にインストールしておく。
+
 Slack 権限は公式ドキュメント参照する。Bot であれば files:write のみで動作する。
+
+```
+# your_invoke_script.sh
+
+source /path/to/this/script.sh
+
+execute_file_upload "your_token" "your_channel_id" "your_file_path"
+```
 
 # 動作しないとき
 
