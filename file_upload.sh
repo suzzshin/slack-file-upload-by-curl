@@ -56,6 +56,7 @@ function execute_file_upload() {
   echo "File upload completed"
 }
 
+# アップロード URL 取得
 function upload_file() {
   local slack_token=$1
   local file_path=$2
@@ -81,6 +82,7 @@ function upload_file() {
   echo ${response}
 }
 
+# ファイルアップロード
 function post_file() {
   local upload_url=$1
   local file_path=$2
@@ -88,7 +90,7 @@ function post_file() {
   # sample response:
   # OK - 123456
   local command="curl -s -X POST ${upload_url} --data-binary @${file_path}"
-  echo "command: ${command}"
+  #echo "command: ${command}"
   local response=$(eval ${command})
 
   if [ $(echo ${response} | grep -c "OK") -eq 0 ]; then
@@ -99,6 +101,7 @@ function post_file() {
   echo ${response}
 }
 
+# アップロード完了
 function complete_upload() {
   local slack_token=$1
   local channel_id=$2
@@ -118,7 +121,6 @@ function complete_upload() {
     }' \
     'https://slack.com/api/files.completeUploadExternal'"
   #echo "command: ${command}"  # トークンが出力されるので注意
-  echo "command: ${command}"
   local response=$(eval ${command})
 
   if [ $(echo ${response} | jq -r '.ok') != "true" ]; then
