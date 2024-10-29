@@ -115,7 +115,7 @@ function complete_upload() {
     -H \"Authorization: Bearer ${slack_token}\" \
     -H \"Content-Type: application/json\" \
     -d '{
-      \"files\": [${files}],
+      \"files\": \"[${files}]\",
       \"initial_comment\": \"${initial_comment}\",
       \"channel_id\": \"${channel_id}\"
     }' \
