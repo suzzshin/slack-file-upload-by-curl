@@ -29,7 +29,7 @@ function execute_file_upload() {
     fi
   done
 
-  local filelist=()
+  local filelist=""
   local comma=""
   for file in ${files}; do
     echo "Uploading file: ${file}"
@@ -44,13 +44,13 @@ function execute_file_upload() {
     echo ${post_result}
 
     local file_name=$(basename ${file})
-    filelist+=($(printf '%s{"id":"%s","title":"%s"}' "${comma}" "${file_id}" "${file_name}"))
+    filelist+=$(printf '%s{"id":"%s","title":"%s"}' "${comma}" "${file_id}" "${file_name}")
 
     comma=","
   done
 
   echo "filelist: ${filelist}"
-  local complete_result=$(complete_upload ${slack_token} ${channel_id} ${initial_comment} ${filelist})
+  local complete_result=$(complete_upload "${slack_token}" "${channel_id}" "${initial_comment}" "${filelist}")
   echo ${complete_result}
 
   echo "File upload completed"
@@ -106,7 +106,7 @@ function complete_upload() {
   local slack_token=$1
   local channel_id=$2
   local initial_comment=$3
-  local files=$4
+  local filelist=$4
 
   # ここで "error":"channel_not_found" が返却される場合は
   # アプリをチャンネルに追加する (左下のアプリをクリックして追加するチャンネル選択)
@@ -115,7 +115,7 @@ function complete_upload() {
     -H \"Authorization: Bearer ${slack_token}\" \
     -H \"Content-Type: application/json\" \
     -d '{
-      \"files\": \"[${files}]\",
+      \"files\": \"[${filelist}]\",
       \"initial_comment\": \"${initial_comment}\",
       \"channel_id\": \"${channel_id}\"
     }' \
